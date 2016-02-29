@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf8">
+    <title>paste as html</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .box {
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+        float: left;
+    }
+    textarea {
+        font-family: Consolas,monospace;
+    }
+    </style>
+    <script src="./jquery.min.js"></script>
+</head>
+<body>
+    <div class="box">
+        <textarea placeholder="paste here as html" id="textarea" style="width: 100%; height: 100%;"></textarea>
+    </div>
+    <div class="box">
+        <iframe id="iframe" style="width: 100%; height: 100%"></iframe>
+    </div>
+    <script>
+    $('#textarea').on('paste', function(e) {
+        console.log(e)
+        var clipboardData = e.originalEvent.clipboardData
+        var html = clipboardData.getData('text/html')
+        $(this).val(html)
+        $('#iframe').attr('srcdoc', html)
+        return false
+    })
+    </script>
+</body>
+</html>
+
