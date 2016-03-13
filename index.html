@@ -25,6 +25,10 @@
     <script src="./jquery.min.js"></script>
 </head>
 <body>
+	<select id="select">
+		<option value="text/html" selected>text/html</option>
+		<option value="text/plain">text/plain</option>
+	</select>
     <div class="box">
         <textarea placeholder="paste here as html" id="textarea" style="width: 100%; height: 100%;"></textarea>
     </div>
@@ -33,13 +37,22 @@
     </div>
     <script>
     $('#textarea').on('paste', function(e) {
-        console.log(e)
+		var mime = $('#select').val()
         var clipboardData = e.originalEvent.clipboardData
-        var html = clipboardData.getData('text/html')
-        $(this).val(html)
-        $('#iframe').attr('srcdoc', html)
+        var data = clipboardData.getData(mime)
+		console.log('paste', mime, data)
+		$(this).val(data)
+        $('#iframe').attr('srcdoc', data)
         return false
-    })
+    }).on('copy', function(e) {
+		var mime = $('#select').val()
+        var clipboardData = e.originalEvent.clipboardData
+		var data = $(this).val()
+		console.log('copy', mime, data)
+		clipboardData.setData(mime, data)
+		return false
+		// clipboardData.setData('text/plain', val) // will self set plain
+	})
     </script>
 </body>
 </html>
